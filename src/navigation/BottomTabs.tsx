@@ -1,14 +1,14 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Platform } from "react-native";
+import { BlurView } from "expo-blur";
 
 import HomeStack from "./HomeStack";
 import ExerciseLibraryScreen from "../screens/ExerciseLibraryScreen";
 import AddWorkoutScreen from "../screens/AddWorkoutScreen";
 import ProgressScreen from "../screens/ProgressScreen";
 import ProfileScreen from "../screens/ProfileScreen";
-import { Colors } from "../constants/colors";
 
 const Tab = createBottomTabNavigator();
 
@@ -17,22 +17,39 @@ export default function BottomTabs() {
     <Tab.Navigator
       screenOptions={({ route }) => ({
         headerShown: false,
-        tabBarActiveTintColor: Colors.primary,
-        tabBarInactiveTintColor: Colors.muted,
+        tabBarActiveTintColor: "#A78BFA",
+        tabBarInactiveTintColor: "#52525B",
         tabBarStyle: styles.tabBar,
+        tabBarBackground: () => (
+          <BlurView
+            intensity={60}
+            tint="dark"
+            style={StyleSheet.absoluteFill}
+          />
+        ),
         tabBarLabelStyle: {
-          fontSize: 12,
+          fontSize: 11,
           fontWeight: "700",
-          marginBottom: 4,
+          marginBottom: Platform.OS === "ios" ? 0 : 4,
+          letterSpacing: 0.3,
         },
         tabBarIcon: ({ color, size, focused }) => {
-          let iconName: keyof typeof Ionicons.glyphMap = "home";
+          const icons: Record<string, keyof typeof Ionicons.glyphMap> = {
+            Home: focused ? "home" : "home-outline",
+            Library: focused ? "book" : "book-outline",
+            Add: focused ? "add-circle" : "add-circle-outline",
+            Progress: focused ? "stats-chart" : "stats-chart-outline",
+            Profile: focused ? "person" : "person-outline",
+          };
+          const iconName = icons[route.name] ?? "home-outline";
 
-          if (route.name === "Home") iconName = "home";
-          if (route.name === "Library") iconName = "book";
-          if (route.name === "Add") iconName = "add-circle";
-          if (route.name === "Progress") iconName = "stats-chart";
-          if (route.name === "Profile") iconName = "person";
+          if (route.name === "Add") {
+            return (
+              <View style={styles.addIconWrap}>
+                <Ionicons name={iconName} size={28} color="#fff" />
+              </View>
+            );
+          }
 
           if (focused) {
             return (
@@ -57,21 +74,31 @@ export default function BottomTabs() {
 
 const styles = StyleSheet.create({
   tabBar: {
-    height: 74,
-    paddingBottom: 10,
+    height: 80,
+    paddingBottom: Platform.OS === "ios" ? 20 : 12,
     paddingTop: 10,
-    backgroundColor: Colors.tabBg,
-    borderTopWidth: 0,
-    elevation: 12,
-    shadowColor: "#000",
-    shadowOpacity: 0.08,
-    shadowRadius: 12,
-    shadowOffset: { width: 0, height: -4 },
+    backgroundColor: "rgba(5,7,13,0.85)",
+    borderTopWidth: 0.5,
+    borderTopColor: "rgba(255,255,255,0.06)",
+    elevation: 0,
   },
   activeIconWrap: {
-    backgroundColor: "#EEF2FF",
+    backgroundColor: "rgba(124,58,237,0.22)",
     paddingHorizontal: 12,
-    paddingVertical: 6,
+    paddingVertical: 5,
     borderRadius: 999,
+  },
+  addIconWrap: {
+    width: 42,
+    height: 42,
+    borderRadius: 21,
+    backgroundColor: "#7C3AED",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 4,
+    shadowColor: "#7C3AED",
+    shadowOpacity: 0.5,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 3 },
   },
 });
