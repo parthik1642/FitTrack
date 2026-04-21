@@ -21,11 +21,7 @@ export default function BottomTabs() {
         tabBarInactiveTintColor: "#52525B",
         tabBarStyle: styles.tabBar,
         tabBarBackground: () => (
-          <BlurView
-            intensity={60}
-            tint="dark"
-            style={StyleSheet.absoluteFill}
-          />
+          <BlurView intensity={60} tint="dark" style={StyleSheet.absoluteFill} />
         ),
         tabBarLabelStyle: {
           fontSize: 11,
@@ -35,22 +31,21 @@ export default function BottomTabs() {
         },
         tabBarIcon: ({ color, size, focused }) => {
           const icons: Record<string, keyof typeof Ionicons.glyphMap> = {
-            Home: focused ? "home" : "home-outline",
-            Library: focused ? "book" : "book-outline",
-            Add: focused ? "add-circle" : "add-circle-outline",
+            Home:     focused ? "home"        : "home-outline",
+            Library:  focused ? "book"        : "book-outline",
+            Add:      focused ? "add-circle"  : "add-circle-outline",
             Progress: focused ? "stats-chart" : "stats-chart-outline",
-            Profile: focused ? "person" : "person-outline",
+            Profile:  focused ? "person"      : "person-outline",
           };
           const iconName = icons[route.name] ?? "home-outline";
 
           if (route.name === "Add") {
             return (
               <View style={styles.addIconWrap}>
-                <Ionicons name={iconName} size={28} color="#fff" />
+                <Ionicons name="add" size={26} color="#fff" />
               </View>
             );
           }
-
           if (focused) {
             return (
               <View style={styles.activeIconWrap}>
@@ -58,16 +53,15 @@ export default function BottomTabs() {
               </View>
             );
           }
-
           return <Ionicons name={iconName} size={size} color={color} />;
         },
       })}
     >
-      <Tab.Screen name="Home" component={HomeStack} />
-      <Tab.Screen name="Library" component={ExerciseLibraryScreen} />
-      <Tab.Screen name="Add" component={AddWorkoutScreen} />
+      <Tab.Screen name="Home"     component={HomeStack} />
+      <Tab.Screen name="Library"  component={ExerciseLibraryScreen} />
+      <Tab.Screen name="Add"      component={AddWorkoutScreen} />
       <Tab.Screen name="Progress" component={ProgressScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Tab.Screen name="Profile"  component={ProfileScreen} />
     </Tab.Navigator>
   );
 }
@@ -77,7 +71,7 @@ const styles = StyleSheet.create({
     height: 80,
     paddingBottom: Platform.OS === "ios" ? 20 : 12,
     paddingTop: 10,
-    backgroundColor: "rgba(5,7,13,0.85)",
+    backgroundColor: "rgba(5,7,13,0.92)",
     borderTopWidth: 0.5,
     borderTopColor: "rgba(255,255,255,0.06)",
     elevation: 0,
@@ -89,16 +83,16 @@ const styles = StyleSheet.create({
     borderRadius: 999,
   },
   addIconWrap: {
-    width: 42,
-    height: 42,
-    borderRadius: 21,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     backgroundColor: "#7C3AED",
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 4,
     shadowColor: "#7C3AED",
-    shadowOpacity: 0.5,
-    shadowRadius: 8,
-    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.55,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 4 },
   },
 });

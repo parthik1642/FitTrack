@@ -19,7 +19,15 @@ export function initDatabase() {
       category TEXT NOT NULL,
       duration INTEGER NOT NULL,
       calories INTEGER NOT NULL,
-      date TEXT NOT NULL
+      date TEXT NOT NULL,
+      notes TEXT DEFAULT ''
     );
   `);
+
+  // Migration: add notes column if it doesn't exist yet (for existing installs)
+  try {
+    database.execSync(`ALTER TABLE workouts ADD COLUMN notes TEXT DEFAULT '';`);
+  } catch {
+    // Column already exists — safe to ignore
+  }
 }

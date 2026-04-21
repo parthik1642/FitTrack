@@ -5,4 +5,5 @@ export type Workout = {
   duration: number;
   calories: number;
   date: string;
+  notes?: string;
 };

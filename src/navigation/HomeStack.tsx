@@ -2,6 +2,7 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "../screens/HomeScreen";
 import EditWorkoutScreen from "../screens/EditWorkoutScreen";
+import WorkoutDetailScreen from "../screens/Workoutdetailscreen";
 
 export type HomeStackParamList = {
   HomeMain: undefined;
@@ -12,6 +13,10 @@ export type HomeStackParamList = {
     duration: number;
     calories: number;
     date: string;
+    notes?: string;
+  };
+  WorkoutDetail: {
+    id: number;
   };
 };
 
@@ -26,9 +31,14 @@ export default function HomeStack() {
         options={{ headerShown: false }}
       />
       <Stack.Screen
+        name="WorkoutDetail"
+        component={WorkoutDetailScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
         name="EditWorkout"
         component={EditWorkoutScreen}
-        options={{ title: "Edit Workout" }}
+        options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );
