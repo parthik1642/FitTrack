@@ -132,7 +132,7 @@ export default function ProgressScreen() {
               {/* Glow */}
               <View style={styles.streakGlow} />
               <View style={styles.streakLeft}>
-                <Text style={styles.streakLabel}>🔥 Current Streak</Text>
+                <Text style={styles.streakLabel}>🔥 Current Streak 🔥</Text>
                 <View style={styles.streakNumRow}>
                   <CountUp value={streak} style={styles.streakNumber} />
                   <Text style={styles.streakUnit}> days</Text>
