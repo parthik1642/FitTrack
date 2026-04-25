@@ -363,7 +363,7 @@ export default function HomeScreen() {
                 <View style={styles.emptyIconWrap}>
                   <MaterialCommunityIcons name="run-fast" size={40} color="#A78BFA" />
                 </View>
-                <Text style={styles.emptyTitle}>No workout yet</Text>
+                <Text style={styles.emptyTitle}>No Workout Yet</Text>
                 <Text style={styles.emptySubtitle}>Tap the + button and add your first session.</Text>
               </BlurView>
             </Reanimated.View>
