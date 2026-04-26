@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import { ActivityIndicator, View, StyleSheet } from "react-native";
 import AppNavigator from "./src/navigation/AppNavigator";
 import { initDatabase } from "./src/database/db";
+import SplashIntroScreen from "./src/screens/SplashIntroScreen";
 
 export default function App() {
   const [ready, setReady] = useState(false);
+  const [showIntro, setShowIntro] = useState(true);
 
   useEffect(() => {
     try {
@@ -15,6 +17,7 @@ export default function App() {
     }
   }, []);
 
+  // Loading while DB initializes
   if (!ready) {
     return (
       <View style={styles.loader}>
@@ -23,6 +26,12 @@ export default function App() {
     );
   }
 
+  // Intro screen (first 2 seconds)
+  if (showIntro) {
+    return <SplashIntroScreen onFinish={() => setShowIntro(false)} />;
+  }
+
+  // Main App
   return <AppNavigator />;
 }
 
