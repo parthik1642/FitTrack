@@ -32,6 +32,7 @@ import { getAllWorkouts, deleteWorkout } from "../database/workoutService";
 import { Workout } from "../types/workout";
 import { HomeStackParamList } from "../navigation/HomeStack";
 import ThreeDumbbell from "../components/ThreeDumbbell";
+import ThreeAthlete from "../components/ThreeAthlete";
 
 const { width, height } = Dimensions.get("window");
 
@@ -255,41 +256,45 @@ function HeroGlow() {
 // ─── Hero animated dumbbell ────────────────────────────────────
 function HeroDumbbell({ onPress }: { onPress: () => void }) {
   const floatY = useSharedValue(0);
-  const rotate = useSharedValue(-8);
+  const rotate = useSharedValue(0);
   const scale = useSharedValue(1);
 
+  const entryScale = useSharedValue(1.4);
+  const entryOpacity = useSharedValue(0);
+
   useEffect(() => {
+    // entry animation (from splash)
+    entryScale.value = withTiming(1, { duration: 700 });
+    entryOpacity.value = withTiming(1, { duration: 700 });
+
+    // floating motion
     floatY.value = withRepeat(
-      withSequence(
-        withTiming(-12, { duration: 1400, easing: Easing.inOut(Easing.sin) }),
-        withTiming(8, { duration: 1400, easing: Easing.inOut(Easing.sin) })
-      ),
+      withTiming(-15, { duration: 1500, easing: Easing.inOut(Easing.ease) }),
       -1,
       true
     );
 
+    // slight rotation
     rotate.value = withRepeat(
-      withSequence(
-        withTiming(10, { duration: 1800, easing: Easing.inOut(Easing.sin) }),
-        withTiming(-10, { duration: 1800, easing: Easing.inOut(Easing.sin) })
-      ),
+      withTiming(10, { duration: 2000 }),
       -1,
       true
     );
   }, []);
 
   const style = useAnimatedStyle(() => ({
+    opacity: entryOpacity.value,
     transform: [
       { translateY: floatY.value },
       { rotate: `${rotate.value}deg` },
-      { scale: scale.value },
+      { scale: scale.value * entryScale.value },
     ],
   }));
 
   return (
     <TouchableOpacity
-      activeOpacity={0.9}
       onPress={onPress}
+      activeOpacity={0.9}
       onPressIn={() => {
         scale.value = withSpring(0.9);
       }}
@@ -299,13 +304,16 @@ function HeroDumbbell({ onPress }: { onPress: () => void }) {
       style={styles.hero3DWrap}
     >
       <View style={styles.hero3DGlow} />
+
       <Reanimated.View style={[styles.hero3DObject, style]}>
         <MaterialCommunityIcons name="dumbbell" size={66} color="#FFFFFF" />
       </Reanimated.View>
+
       <Text style={styles.hero3DText}>Tap to train</Text>
     </TouchableOpacity>
   );
 }
+  
 
 // ─── Shimmer ───────────────────────────────────────────────────
 function ShimmerLine() {
@@ -638,7 +646,10 @@ export default function HomeScreen() {
                     </View>
 
                    <View style={{ alignItems: "center" }}>
+ <Reanimated.View entering={FadeInDown.delay(200).duration(700).springify()}>
   <ThreeDumbbell />
+  <ThreeAthlete />
+</Reanimated.View>
   <Text style={{ color: "#C4B5FD", fontSize: 12, marginTop: 6 }}>
     3D Mode
   </Text>
