@@ -201,7 +201,7 @@ export default function ProfileScreen() {
               <View style={styles.infoDivider} />
               <View style={styles.infoRow}>
                 <Text style={styles.infoLabel}>Built with</Text>
-                <Text style={styles.infoValue}>Expo + Reanimated 4</Text>
+                <Text style={styles.infoValue}>Expo + Reanimated</Text>
               </View>
               <View style={styles.infoDivider} />
               <View style={styles.infoRow}>
